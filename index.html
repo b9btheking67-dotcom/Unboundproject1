@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071215">
+  <meta name="description" content="Explore all seven UAE emirates with SOLA's futuristic place atlas and stylized 3D city views.">
+  <title>SOLA UAE — Emirates in a new light</title>
+  <style>
+    :root {
+      --bg: #061114; --bg-2: #09191d; --panel: #0d2023; --panel-2: #10262a;
+      --line: rgba(140, 208, 198, .15); --line-bright: rgba(119, 231, 215, .34);
+      --text: #eaf6f2; --soft: #aec4bf; --muted: #78938e; --muted-2: #536d69;
+      --aqua: #6be2cf; --aqua-2: #2caeaa; --lime: #d7f28f; --violet: #aa9bff;
+      --amber: #ffb96f; --danger: #ff8c8c; --shadow: 0 26px 60px rgba(0, 0, 0, .27);
+      --radius: 19px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 86px; }
+    body { margin: 0; color: var(--text); background: var(--bg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+    .container { width: min(1310px, calc(100% - 52px)); margin-inline: auto; }
+    .site-header { position: sticky; top: 0; z-index: 15; height: 70px; background: rgba(6,17,20,.88); border-bottom: 1px solid var(--line); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+    .header-inner { height: 100%; width: min(1360px, calc(100% - 52px)); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; flex: none; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(111,228,207,.55); border-radius: 11px; color: var(--aqua); background: linear-gradient(145deg,rgba(74,207,189,.19),rgba(74,207,189,.025)); box-shadow: 0 0 22px rgba(87,226,206,.09), inset 0 0 15px rgba(87,226,206,.06); }
+    .brand-word { display: block; font-size: 17px; line-height: 1; font-weight: 820; letter-spacing: .18em; }
+    .brand-sub { display: block; font-size: 7px; letter-spacing: .17em; color: var(--muted); margin-top: 5px; font-weight: 750; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a { text-decoration: none; color: #8da8a3; font-size: 9px; font-weight: 670; padding: 9px 12px; border: 1px solid transparent; border-radius: 8px; transition: .17s ease; }
+    .nav-links a:hover { color: var(--aqua); border-color: var(--line); background: rgba(101,216,198,.045); }
+    .header-right { display: flex; align-items: center; gap: 9px; }
+    .signed-email { max-width: 145px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #87aaa2; font: 700 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 7px 9px; border: 1px solid rgba(140,208,198,.12); border-radius: 99px; }
+    .signout-button { border: 1px solid rgba(140,208,198,.16); color: #8ba9a1; background: rgba(255,255,255,.02); border-radius: 8px; min-height: 31px; padding: 0 9px; font-size: 7px; font-weight: 740; }
+    .signout-button:hover { color: var(--aqua); border-color: var(--line-bright); }
+    .system-pill { display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(132,217,172,.19); color: #9ed0b0; border-radius: 99px; padding: 7px 9px; text-transform: uppercase; font-size: 7px; font-weight: 780; letter-spacing: .08em; }
+    .system-pill i { width: 6px; height: 6px; background: #70e0a0; border-radius: 50%; box-shadow: 0 0 9px #70e0a0; }
+    .header-button { border: 1px solid rgba(107,226,207,.3); color: var(--aqua); background: rgba(73,202,183,.09); border-radius: 9px; min-height: 34px; padding: 0 11px; display: inline-flex; align-items: center; gap: 7px; font-size: 8px; font-weight: 760; transition: .17s ease; }
+    .header-button:hover { background: rgba(73,202,183,.17); box-shadow: 0 0 20px rgba(73,202,183,.12); }
+    .header-button b { min-width: 17px; height: 17px; display: grid; place-items: center; background: rgba(107,226,207,.13); border-radius: 50%; font-size: 7px; }
+    .hero { position: relative; overflow: hidden; padding: 53px 0 28px; background: radial-gradient(ellipse at 78% 36%, rgba(15,103,92,.2), transparent 32%), radial-gradient(ellipse at 3% 5%, rgba(43,79,108,.14), transparent 32%), #071417; }
+    .hero:before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(115,215,198,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(115,215,198,.025) 1px, transparent 1px); background-size: 50px 50px; mask-image: linear-gradient(90deg,black,transparent 88%); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(410px,.88fr); align-items: center; gap: clamp(34px,6vw,88px); }
+    .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--aqua); font: 760 8px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    .eyebrow i { width: 6px; height: 6px; display: inline-block; background: var(--aqua); border-radius: 50%; box-shadow: 0 0 10px rgba(107,226,207,.8); }
+    .tag { border: 1px solid rgba(170,155,255,.24); background: rgba(170,155,255,.08); color: #c2b7ff; border-radius: 99px; padding: 5px 8px; font-size: 7px; letter-spacing: .09em; font-weight: 780; }
+    h1 { max-width: 680px; margin: 17px 0 14px; font-size: clamp(47px,6.2vw,78px); font-weight: 560; line-height: .94; letter-spacing: -.075em; }
+    h1 span { color: var(--aqua); font-family: Georgia,"Times New Roman",serif; font-style: italic; font-weight: 500; letter-spacing: -.07em; }
+    .hero-copy { max-width: 520px; color: #9bb4ae; font-size: 12px; line-height: 1.75; margin: 0; }
+    .hero-actions { display: flex; align-items: center; gap: 10px; margin-top: 23px; flex-wrap: wrap; }
+    .btn-main, .btn-alt { min-height: 42px; padding: 0 15px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 9px; font-weight: 760; text-decoration: none; transition: .18s ease; }
+    .btn-main { border: 1px solid rgba(134,255,228,.38); color: #031211; background: linear-gradient(135deg,#8cf3dc,#47cbbb); box-shadow: 0 7px 20px rgba(64,220,194,.14); }
+    .btn-main:hover { box-shadow: 0 9px 26px rgba(64,220,194,.26); transform: translateY(-1px); }
+    .btn-alt { color: #a8c0ba; background: rgba(8,28,31,.6); border: 1px solid var(--line); }
+    .btn-alt:hover { color: var(--aqua); border-color: var(--line-bright); background: rgba(28,69,69,.28); }
+    .hero-footnote { margin-top: 17px; color: #627d78; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 7px; letter-spacing: .035em; }
+    .hero-footnote span { display: inline-flex; align-items: center; gap: 5px; }
+    .hero-footnote svg { color: #72cab7; }
+    .hero-console { min-height: 328px; position: relative; overflow: hidden; border: 1px solid rgba(97,220,201,.22); border-radius: 18px; background: linear-gradient(137deg,rgba(11,38,40,.95),rgba(7,22,27,.96)); box-shadow: 0 18px 60px rgba(0,0,0,.23), inset 0 0 35px rgba(74,181,169,.055); padding: 16px; }
+    .hero-console:before { content: ""; position: absolute; width: 280px; height: 280px; right: -52px; top: 29px; border: 1px solid rgba(98,220,201,.14); border-radius: 50%; box-shadow: 0 0 0 18px rgba(98,220,201,.025),0 0 0 42px rgba(98,220,201,.02),0 0 0 71px rgba(98,220,201,.018); }
+    .console-head { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; border-bottom: 1px solid rgba(130,216,203,.13); padding-bottom: 11px; }
+    .console-label { color: #789c96; font: 700 7px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .13em; }
+    .console-value { color: #befff0; font: 720 8px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; display: flex; align-items: center; gap: 6px; }
+    .console-value i { width: 5px; height: 5px; background: var(--lime); border-radius: 50%; box-shadow: 0 0 8px var(--lime); }
+    .console-art { height: 217px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .console-art svg { width: 100%; height: 100%; display: block; }
+    .console-coordinate { position: absolute; left: 9px; bottom: 9px; border-left: 2px solid var(--aqua); padding-left: 7px; color: #92b6ae; font: 700 7px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .console-coordinate b { color: #e0fff5; font-size: 8px; }
+    .console-scan { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(transparent 49%,rgba(91,213,194,.07) 50%,transparent 51%); background-size: 100% 6px; opacity: .18; }
+    .hero-console-foot { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(130,216,203,.13); padding-top: 10px; color: #78948d; font: 700 7px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .06em; }
+    .hero-console-foot b { color: var(--lime); }
+    .stats-line { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; }
+    .stat-item { display: flex; align-items: center; gap: 9px; padding: 2px 22px; border-right: 1px solid var(--line); }
+    .stat-item:first-child { padding-left: 2px; }
+    .stat-item:last-child { border-right: 0; }
+    .stat-number { color: var(--aqua); font-size: 17px; letter-spacing: -.06em; font-weight: 700; }
+    .stat-text strong { display: block; color: #c2d7d1; font-size: 8px; }
+    .stat-text span { display: block; color: #6b8983; font-size: 7px; margin-top: 4px; }
+    .section { padding-top: 68px; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 21px; }
+    .section-index { color: #537f79; font: 730 8px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    h2 { font-size: clamp(25px,3vw,37px); font-weight: 560; line-height: 1.03; letter-spacing: -.06em; margin: 8px 0 0; }
+    h2 span { color: var(--aqua); }
+    .section-copy { color: #819a94; font-size: 9px; line-height: 1.7; max-width: 495px; margin: 8px 0 0; }
+    .data-flag { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; padding: 7px 9px; border: 1px solid rgba(255,185,111,.2); border-radius: 99px; background: rgba(255,185,111,.055); color: #d8ae7b; font: 730 7px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .06em; }
+    .data-flag i { width: 5px; height: 5px; background: var(--amber); border-radius: 50%; box-shadow: 0 0 8px rgba(255,185,111,.65); }
+    .trip-bar { display: grid; grid-template-columns: minmax(0,1fr) 25px minmax(0,1fr) auto auto; gap: 9px; align-items: end; background: linear-gradient(135deg,#0d2024,#0a1b1e); border: 1px solid var(--line); border-radius: 14px; padding: 13px; margin-bottom: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.12); }
+    .field-label { display: block; color: #76918b; font: 740 7px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 6px 2px; }
+    .select-wrap { position: relative; }
+    .select-wrap svg { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #77a59b; pointer-events: none; }
+    select, .search-input { width: 100%; min-height: 38px; padding: 0 29px 0 10px; background: #09181b; color: #c4dad4; border: 1px solid rgba(128,189,180,.2); border-radius: 8px; appearance: none; font-size: 8px; font-weight: 620; }
+    select:hover, .search-input:hover { border-color: rgba(107,226,207,.42); }
+    option, optgroup { background: #0d2023; color: #d5e7e1; }
+    .swap-button { width: 25px; height: 38px; display: grid; place-items: center; border-radius: 7px; color: #75cfc0; border: 1px solid var(--line); background: rgba(107,226,207,.06); }
+    .swap-button:hover { background: rgba(107,226,207,.15); }
+    .trip-button { min-height: 38px; padding: 0 11px; border: 1px solid rgba(107,226,207,.25); border-radius: 8px; color: var(--aqua); background: rgba(107,226,207,.07); display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 8px; font-weight: 760; white-space: nowrap; }
+    .trip-button:hover { border-color: rgba(107,226,207,.58); background: rgba(107,226,207,.14); }
+    .trip-button.random { color: #e0caff; border-color: rgba(170,155,255,.29); background: rgba(170,155,255,.075); }
+    .trip-button.random:hover { background: rgba(170,155,255,.15); }
+    .atlas-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(310px,.84fr); gap: 12px; align-items: stretch; }
+    .map-card, .scene-card, .place-card, .popular-wrap, .climate-card { border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg,rgba(12,31,35,.98),rgba(8,23,26,.98)); box-shadow: var(--shadow); }
+    .map-card { min-width: 0; overflow: hidden; }
+    .panel-head { min-height: 53px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 13px; border-bottom: 1px solid rgba(140,208,198,.1); }
+    .panel-title { color: #cde2dc; font-size: 9px; font-weight: 770; letter-spacing: .01em; }
+    .panel-subtitle { color: #6e8984; font: 680 7px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin-top: 4px; letter-spacing: .035em; }
+    .panel-actions { display: flex; align-items: center; gap: 5px; }
+    .map-control { display: grid; place-items: center; width: 25px; height: 25px; border: 1px solid rgba(130,204,192,.17); border-radius: 7px; color: #8ec8bc; background: rgba(255,255,255,.025); font-size: 12px; }
+    .map-control:hover { color: var(--lime); border-color: rgba(107,226,207,.48); }
+    .map-body { position: relative; overflow: hidden; background: radial-gradient(ellipse at 72% 43%,rgba(17,102,91,.17),transparent 40%),linear-gradient(160deg,#07191c,#081316); }
+    .uae-map { width: 100%; height: auto; display: block; min-height: 410px; }
+    .map-gridline { stroke: #144047; stroke-width: .65; opacity: .53; stroke-dasharray: 2 5; }
+    .map-radar { fill: none; stroke: #1c4c4d; stroke-width: .8; opacity: .48; }
+    .region { cursor: pointer; stroke: #62dcca; stroke-width: .9; stroke-opacity: .65; transition: fill .18s ease, filter .18s ease, stroke-opacity .18s ease; vector-effect: non-scaling-stroke; }
+    .region[data-emirate="abu-dhabi"] { fill: rgba(19,121,102,.37); }
+    .region[data-emirate="dubai"] { fill: rgba(46,130,118,.52); }
+    .region[data-emirate="sharjah"] { fill: rgba(36,115,128,.48); }
+    .region[data-emirate="ajman"] { fill: rgba(64,143,138,.65); }
+    .region[data-emirate="umm-al-quwain"] { fill: rgba(47,126,135,.55); }
+    .region[data-emirate="ras-al-khaimah"] { fill: rgba(62,141,134,.46); }
+    .region[data-emirate="fujairah"] { fill: rgba(49,122,133,.5); }
+    .region:hover, .region.active-region { fill: rgba(104,231,207,.5) !important; stroke: #b0ffee; stroke-opacity: 1; filter: drop-shadow(0 0 5px rgba(107,226,207,.65)); }
+    .map-geo-label { fill: #9ac0b7; font: 700 6.8px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; text-anchor: middle; pointer-events: none; opacity: .87; }
+    .map-city-label { fill: #b9d6cf; font: 700 6.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .045em; paint-order: stroke; stroke: #071619; stroke-width: 2px; stroke-linejoin: round; pointer-events: none; }
+    .map-water-label { fill: #54827f; font: italic 10px Georgia,serif; letter-spacing: .13em; opacity: .72; }
+    .city-pin { cursor: pointer; }
+    .city-pin circle.pin-dot { fill: #d4fff4; stroke: #52d8c5; stroke-width: 2; filter: drop-shadow(0 0 4px #5fe0cd); }
+    .city-pin:hover circle.pin-dot { r: 6; fill: white; }
+    .place-pulse { fill: rgba(101,236,213,.12); stroke: #76ffe4; stroke-width: 1.3; stroke-dasharray: 3 4; animation: pulseRing 2.4s ease-out infinite; }
+    .place-main-dot { fill: #d9fff3; stroke: #41d8c3; stroke-width: 2.5; filter: drop-shadow(0 0 7px #53e4d0); }
+    .origin-dot { fill: #fff0c8; stroke: #f0b46d; stroke-width: 2.3; filter: drop-shadow(0 0 6px #f5b66d); }
+    .explore-link { fill: none; stroke: url(#linkGradient); stroke-width: 2.2; stroke-dasharray: 6 5; filter: drop-shadow(0 0 4px rgba(108,232,212,.6)); }
+    .map-label-box { fill: rgba(5,19,22,.9); stroke: rgba(101,225,208,.45); stroke-width: .7; }
+    .map-label-text { fill: #dcfff4; font: 700 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-anchor: middle; letter-spacing: .035em; }
+    .map-overlay-badge { position: absolute; top: 12px; left: 12px; border: 1px solid rgba(98,220,201,.19); background: rgba(4,17,20,.82); color: #a6c8bf; border-radius: 7px; padding: 6px 8px; font: 720 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; backdrop-filter: blur(6px); }
+    .map-overlay-badge b { color: var(--aqua); }
+    .map-scale { position: absolute; right: 12px; bottom: 11px; display: flex; align-items: center; gap: 6px; color: #71928b; font: 700 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .scale-line { width: 30px; height: 1px; background: #64dcca; box-shadow: 0 0 5px rgba(100,220,202,.5); }
+    .map-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-top: 1px solid rgba(140,208,198,.1); color: #68837e; font: 700 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .045em; }
+    .legend-group { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .legend-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .legend-color { width: 7px; height: 7px; border-radius: 50%; background: #54d4bd; box-shadow: 0 0 6px rgba(84,212,189,.5); }
+    .legend-color.start { background: #f0b46d; box-shadow: 0 0 6px rgba(240,180,109,.5); }
+    .legend-line { width: 14px; border-top: 1.5px dashed #65dfca; }
+    .map-foot strong { color: #a1c9be; }
+    .right-stack { display: grid; grid-template-rows: minmax(0,1fr) auto; gap: 10px; min-width: 0; }
+    .scene-card { min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .scene-card .panel-head { min-height: 50px; }
+    .scene-stage { position: relative; flex: 1; min-height: 260px; display: flex; align-items: center; justify-content: center; overflow: hidden; perspective: 1000px; background: radial-gradient(ellipse at 55% 74%,rgba(20,132,123,.19),transparent 50%),linear-gradient(145deg,#0a2226,#071619 70%); }
+    .scene-stage:before { content: ""; position: absolute; inset: 0; opacity: .36; background: linear-gradient(rgba(82,180,169,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(82,180,169,.05) 1px,transparent 1px); background-size: 26px 26px; transform: perspective(280px) rotateX(42deg) scale(1.7) translateY(28%); transform-origin: bottom center; mask-image: linear-gradient(transparent 10%,black 75%); }
+    .scene-stage.orbit .scene-svg { transform: perspective(850px) rotateX(8deg) rotateY(-7deg) scale(.93); }
+    .scene-svg { width: 100%; height: 100%; max-height: 340px; position: relative; z-index: 1; display: block; transition: transform .65s cubic-bezier(.2,.8,.2,1); }
+    .scene-chip { position: absolute; z-index: 2; top: 10px; right: 10px; border: 1px solid rgba(170,155,255,.28); background: rgba(21,17,42,.69); color: #c1b5ff; border-radius: 99px; padding: 5px 7px; font: 720 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .08em; }
+    .scene-bottom { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 12px; border-top: 1px solid rgba(140,208,198,.1); color: #708d85; font-size: 7px; }
+    .scene-bottom b { color: #b8ded2; font-weight: 720; }
+    .orbit-button { border: 0; background: transparent; color: var(--aqua); font-size: 7px; font-weight: 750; }
+    .orbit-button:hover { color: var(--lime); }
+    .place-card { padding: 13px; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px 10px; align-items: center; }
+    .place-kicker { color: #67bdae; font: 720 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .11em; text-transform: uppercase; }
+    .place-card h3 { color: #e4f5ef; font-size: 14px; letter-spacing: -.04em; margin: 4px 0 3px; }
+    .place-subtitle { color: #819c95; font-size: 7px; }
+    .place-save { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid rgba(140,208,198,.2); border-radius: 8px; color: #91b4aa; background: rgba(255,255,255,.025); }
+    .place-save:hover, .place-save.saved { color: var(--lime); border-color: rgba(215,242,143,.45); background: rgba(215,242,143,.08); }
+    .place-coords { grid-column: 1 / -1; padding-top: 7px; border-top: 1px solid rgba(140,208,198,.1); display: flex; align-items: center; justify-content: space-between; gap: 6px; color: #698680; font: 700 6.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .place-coords strong { color: #a4cfc2; }
+    .emirate-tabs { display: flex; align-items: center; gap: 5px; padding: 13px 0 11px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #244d4e transparent; }
+    .emirate-tab { flex: none; border: 1px solid rgba(140,208,198,.13); background: rgba(255,255,255,.018); color: #76948d; border-radius: 99px; padding: 7px 10px; font: 700 7px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; transition: .15s ease; }
+    .emirate-tab:hover { color: #c4e9df; border-color: rgba(107,226,207,.35); }
+    .emirate-tab[aria-pressed="true"] { color: #061614; background: var(--aqua); border-color: var(--aqua); box-shadow: 0 0 15px rgba(107,226,207,.12); }
+    .popular-wrap { padding: 14px; }
+    .popular-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 11px; }
+    .popular-head strong { color: #cee0da; font-size: 9px; }
+    .popular-head span { color: #6d8982; font: 700 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .popular-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 7px; }
+    .popular-card { min-width: 0; text-align: left; position: relative; overflow: hidden; padding: 11px 10px; min-height: 79px; color: var(--soft); border: 1px solid rgba(140,208,198,.13); border-radius: 10px; background: linear-gradient(145deg,rgba(19,44,46,.84),rgba(9,24,28,.92)); transition: .17s ease; }
+    .popular-card:after { content: ""; position: absolute; width: 48px; height: 48px; right: -17px; bottom: -24px; border-radius: 50%; border: 1px solid rgba(107,226,207,.22); box-shadow: 0 0 0 7px rgba(107,226,207,.025); }
+    .popular-card:hover, .popular-card[aria-pressed="true"] { border-color: rgba(107,226,207,.5); background: linear-gradient(145deg,rgba(33,83,78,.72),rgba(12,33,35,.97)); transform: translateY(-1px); }
+    .popular-icon { width: 21px; height: 21px; display: grid; place-items: center; color: var(--aqua); border: 1px solid rgba(107,226,207,.2); border-radius: 6px; background: rgba(107,226,207,.05); margin-bottom: 8px; }
+    .popular-card strong { display: block; font-size: 8px; color: #d3e5df; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .popular-card span { display: block; color: #6e8d85; font-size: 6.5px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .popular-empty { grid-column: 1/-1; padding: 15px; color: #76908a; background: rgba(255,255,255,.02); border: 1px dashed rgba(140,208,198,.16); border-radius: 9px; font-size: 8px; }
+    .climate-section { padding-top: 63px; }
+    .climate-card { display: grid; grid-template-columns: minmax(240px,.82fr) minmax(0,1.5fr) minmax(150px,.6fr); gap: 18px; align-items: center; padding: 18px; background: radial-gradient(ellipse at 83% 2%,rgba(37,121,108,.15),transparent 35%),linear-gradient(135deg,#0c2023,#0a191d); }
+    .climate-info .eyebrow { font-size: 7px; }
+    .climate-info h3 { margin: 7px 0 5px; color: #e5f3ee; font-size: 16px; letter-spacing: -.05em; }
+    .climate-info p { color: #829b94; font-size: 8px; line-height: 1.6; margin: 0; }
+    .heat-time { display: flex; align-items: center; gap: 6px; }
+    .heat-hour { min-width: 35px; flex: 1; height: 91px; border: 1px solid rgba(140,208,198,.12); background: rgba(255,255,255,.018); border-radius: 8px; padding: 7px 3px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 5px; color: #78948d; transition: .15s; }
+    .heat-hour:hover { border-color: rgba(107,226,207,.4); }
+    .heat-hour[aria-pressed="true"] { border-color: rgba(107,226,207,.55); background: rgba(107,226,207,.07); color: #b8e9de; }
+    .heat-hour .temp-label { font-size: 6px; font-weight: 720; }
+    .heat-hour .heat-bar { width: 10px; min-height: 12px; border-radius: 99px 99px 4px 4px; background: linear-gradient(180deg,#ffb76f,#c96e70); box-shadow: 0 0 9px rgba(232,142,105,.16); }
+    .heat-hour[data-cool="true"] .heat-bar { background: linear-gradient(180deg,#6be2cf,#77b89e); box-shadow: 0 0 9px rgba(93,228,204,.15); }
+    .heat-hour .time-label { font: 700 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .comfort-readout { text-align: right; border-left: 1px solid var(--line); padding-left: 17px; }
+    .comfort-readout span { display: block; color: #6d8b85; font: 700 6px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .1em; }
+    .comfort-temp { color: #f4c47f; font-size: 32px; line-height: 1; letter-spacing: -.07em; margin-top: 7px; }
+    .comfort-index { color: #9acfc0; font-size: 8px; margin-top: 6px; }
+    .comfort-readout small { color: #5f7d76; display: block; font-size: 6px; margin-top: 7px; line-height: 1.4; }
+    .footer { margin-top: 40px; padding: 16px 0 22px; border-top: 1px solid var(--line); color: #55716b; display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; font-size: 7px; line-height: 1.65; }
+    .footer strong { color: #83a79f; }
+    .footer a { color: #7bd9c7; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .toast { position: fixed; z-index: 40; left: 50%; bottom: 22px; transform: translate(-50%,15px); opacity: 0; pointer-events: none; max-width: min(93vw,520px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid rgba(109,235,211,.24); border-radius: 99px; color: #e4fff6; background: rgba(8,31,32,.96); box-shadow: 0 12px 32px rgba(0,0,0,.33),0 0 20px rgba(68,201,183,.08); padding: 10px 14px; font-size: 8px; transition: .22s ease; }
+    .toast.show { opacity: 1; transform: translate(-50%,0); }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 35; display: grid; place-items: center; padding: 18px; background: rgba(1,8,11,.7); backdrop-filter: blur(6px); }
+    .modal-backdrop[hidden] { display: none; }
+    .modal { width: min(100%,480px); max-height: min(84vh,620px); overflow: auto; border: 1px solid rgba(107,226,207,.2); border-radius: 17px; background: linear-gradient(150deg,#102327,#091619); box-shadow: 0 25px 80px rgba(0,0,0,.52); padding: 19px; }
+    .modal-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .modal h2 { color: #e5f6ef; font-size: 21px; margin: 6px 0 0; }
+    .modal-copy { color: #7e9a93; font-size: 8px; line-height: 1.6; margin: 8px 0 14px; }
+    .modal-close { width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 7px; color: #a6c0b8; background: rgba(255,255,255,.03); font-size: 17px; }
+    .saved-grid { display: grid; gap: 7px; }
+    .saved-place-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px; border: 1px solid rgba(140,208,198,.13); border-radius: 9px; background: rgba(255,255,255,.018); }
+    .saved-place-row strong { display: block; color: #cbe5dc; font-size: 8px; }
+    .saved-place-row span { display: block; color: #718e87; font-size: 7px; margin-top: 4px; }
+    .saved-place-row button { border: 0; background: transparent; color: #d39e82; font-size: 7px; font-weight: 760; }
+    .empty-state { color: #819d95; border: 1px dashed rgba(140,208,198,.18); border-radius: 9px; padding: 18px; text-align: center; font-size: 8px; line-height: 1.6; }
+    @keyframes pulseRing { 0% { opacity:.95; transform:scale(.75); } 75% { opacity:.16; transform:scale(1.55); } 100% { opacity:0; transform:scale(1.7); } }
+    @media (max-width: 1030px) {
+      .hero-grid { grid-template-columns: minmax(0,1fr) minmax(340px,.9fr); gap: 31px; }
+      .atlas-grid { grid-template-columns: minmax(0,1.2fr) minmax(290px,.9fr); }
+      .trip-bar { grid-template-columns: minmax(0,1fr) 25px minmax(0,1fr) auto; }
+      .trip-button.random { grid-column: 3 / -1; }
+      .popular-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .climate-card { grid-template-columns: 1fr 1.6fr; }
+      .comfort-readout { grid-column: 1/-1; border-left: 0; border-top: 1px solid var(--line); padding: 11px 0 0; text-align: left; display: flex; align-items: center; gap: 9px; }
+      .comfort-temp { font-size: 22px; margin: 0; }
+      .comfort-index { margin: 0; }
+      .comfort-readout small { margin: 0 0 0 auto; }
+    }
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-console { max-width: 580px; width: 100%; min-height: 300px; }
+      .console-art { height: 190px; }
+      .atlas-grid { grid-template-columns: 1fr; }
+      .right-stack { grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: auto; }
+      .scene-card { min-height: 290px; }
+      .scene-stage { min-height: 215px; }
+      .place-card { align-self: stretch; }
+      .popular-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+      .trip-bar { grid-template-columns: minmax(0,1fr) 26px minmax(0,1fr); }
+      .trip-button { grid-row: 2; }
+      .trip-button.random { grid-column: 3; }
+      .section { padding-top: 54px; }
+    }
+    @media (max-width: 560px) {
+      .container, .header-inner { width: min(100% - 30px,1310px); }
+      .site-header { height: 60px; }
+      .brand-mark { width: 31px; height: 31px; }
+      .brand-word { font-size: 15px; }
+      .brand-sub { font-size: 6px; }
+      .system-pill { display: none; }
+      .signed-email { max-width: 84px; padding: 6px 7px; font-size: 6px; }
+      .signout-button { min-height: 28px; padding: 0 6px; font-size: 6px; }
+      .hero { padding: 36px 0 24px; }
+      h1 { font-size: clamp(43px,12vw,61px); }
+      .hero-copy { font-size: 10px; }
+      .hero-console { min-height: 282px; padding: 13px; }
+      .console-art { height: 175px; }
+      .stats-line { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .stat-item { padding: 8px 6px; border-right: 0; }
+      .stat-item:first-child { padding-left: 6px; grid-column: 1 / -1; border-bottom: 1px solid var(--line); }
+      .section-head { align-items: flex-start; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+      h2 { font-size: 30px; }
+      .section-copy { font-size: 8px; }
+      .trip-bar { grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr); padding: 9px; gap: 6px; }
+      .field-label { font-size: 6px; }
+      select { min-height: 35px; font-size: 7px; padding-left: 7px; }
+      .swap-button { height: 35px; }
+      .trip-button { grid-column: span 1; min-height: 34px; font-size: 7px; padding: 0 7px; }
+      .trip-button.random { grid-column: auto; }
+      .atlas-grid { gap: 8px; }
+      .uae-map { min-height: 330px; }
+      .map-foot { align-items: flex-start; flex-direction: column; }
+      .right-stack { grid-template-columns: 1fr; }
+      .scene-card { min-height: 285px; }
+      .scene-stage { min-height: 220px; }
+      .popular-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .emirate-tab { padding: 7px 8px; }
+      .climate-card { grid-template-columns: 1fr; padding: 14px; gap: 13px; }
+      .heat-time { overflow-x: auto; padding-bottom: 2px; }
+      .heat-hour { min-width: 40px; height: 82px; }
+      .comfort-readout { grid-column: auto; flex-wrap: wrap; }
+      .comfort-readout small { flex-basis: 100%; margin-left: 0; }
+      .footer { flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="SOLA UAE home"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 17.5c2.1-3.6 4.8-5.4 8-5.4s5.9 1.8 8 5.4M7.6 17.5h8.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 1.3v1.2M4.7 4l.9.9m13.7-.9-.9.9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span><span><span class="brand-word">SOLA</span><span class="brand-sub">EMIRATES / CLIMATE ATLAS</span></span></a>
+      <nav class="nav-links" aria-label="Main navigation"><a href="#atlas">UAE Atlas</a><a href="#destinations">Main places</a><a href="#heat-lens">Heat lens</a></nav>
+      <div class="header-right"><span class="system-pill"><i></i> Interface ready</span><span class="signed-email" id="signedInEmail" title="Signed in account"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c8bdbbadba88bba7a4a9e6a9ad">[email&#160;protected]</a></span><button class="header-button" id="openSaved" type="button"><svg width="12" height="13" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M4.4 2.2h7.2c.7 0 1.2.5 1.2 1.2v11.3L8 11.8l-4.8 2.9V3.4c0-.7.5-1.2 1.2-1.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg> Saved <b id="savedCount">0</b></button><button class="signout-button" id="signOutButton" type="button">SIGN OUT</button></div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow"><i></i> PLACE INTELLIGENCE / UAE <span class="tag">FUTURE ATLAS · CONCEPT</span></div>
+          <h1>Explore the Emirates<br><span>in a new light.</span></h1>
+          <p class="hero-copy">A futuristic, heat-aware atlas for the United Arab Emirates. Jump between all seven emirates, discover landmark places, spin up a surprise destination, and preview the built environment in a stylized 3D city view.</p>
+          <div class="hero-actions"><a class="btn-main" href="#atlas">Open the UAE atlas <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="btn-alt" id="heroSurprise" type="button"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m8 1 1.5 4.3L14 7l-4.5 1.7L8 13l-1.5-4.3L2 7l4.5-1.7L8 1Zm5 9 .7 2 2.1.8-2.1.8-.7 2-.7-2-2.1-.8 2.1-.8.7-2Z" stroke="currentColor" stroke-width="1.05" stroke-linejoin="round"/></svg> Surprise me</button></div>
+          <div class="hero-footnote"><span><svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.8 13 3.7v3.8c0 3.1-2 5.2-5 6.7-3-1.5-5-3.6-5-6.7V3.7l5-1.9Z" stroke="currentColor" stroke-width="1.2"/><path d="m5.8 7.8 1.4 1.4 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Browser-first privacy</span><span>✦ 7 emirates mapped</span><span>✦ 3D-style scene previews</span></div>
+        </div>
+        <div class="hero-console" aria-label="SOLA UAE atlas preview">
+          <div class="console-scan"></div><div class="console-head"><span class="console-label">SOLA ATLAS / UAE-01</span><span class="console-value"><i></i> MAP DATA ONLINE</span></div>
+          <div class="console-art"><svg viewBox="0 0 560 255" fill="none" aria-hidden="true"><defs><linearGradient id="heroNeon" x1="81" y1="184" x2="460" y2="52" gradientUnits="userSpaceOnUse"><stop stop-color="#65dfc9"/><stop offset="1" stop-color="#c6fff0"/></linearGradient><radialGradient id="heroGlow"><stop stop-color="#42cbb3" stop-opacity=".22"/><stop offset="1" stop-color="#42cbb3" stop-opacity="0"/></radialGradient></defs><circle cx="388" cy="117" r="130" fill="url(#heroGlow)"/><g opacity=".28" stroke="#347c76" stroke-width=".8"><path d="M48 220h465M70 192h421M92 164h377M114 136h333M136 108h289M158 80h245M180 52h201"/><path d="M90 33v190m46-190v190m46-190v190m46-190v190m46-190v190m46-190v190m46-190v190m46-190v190m46-190v190"/></g><path d="M93 190c61-22 78-39 110-35 34 5 45 20 74 10 38-13 48-56 93-69 43-13 76 11 119-18" stroke="#214f4d" stroke-width="30" stroke-linecap="round" opacity=".43"/><path d="M76 181c54 6 80-19 110-42 33-24 62-4 92 6 32 10 52 5 83-30 30-33 59-27 97-30 34-2 60-15 80-39" stroke="url(#heroNeon)" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="1 0"/><path d="M96 146c39-18 65-27 88-25m102 18 38-20m96-18 33-18" stroke="#bbfff0" stroke-width="1" stroke-dasharray="3 7" opacity=".72"/><g fill="#82eed8" opacity=".85"><circle cx="114" cy="174" r="3"/><circle cx="208" cy="139" r="3"/><circle cx="355" cy="112" r="3"/><circle cx="480" cy="76" r="3"/></g><g><circle cx="76" cy="181" r="12" fill="#70e5d1" fill-opacity=".13" stroke="#70e5d1" stroke-opacity=".45"/><circle cx="76" cy="181" r="4" fill="#c9fff1"/><circle cx="478" cy="76" r="12" fill="#70e5d1" fill-opacity=".13" stroke="#70e5d1" stroke-opacity=".45"/><circle cx="478" cy="76" r="4" fill="#c9fff1"/></g><text x="60" y="215" fill="#88b9af" font-family="monospace" font-size="8" letter-spacing="1.2">ABU DHABI</text><text x="453" y="59" fill="#88b9af" font-family="monospace" font-size="8" letter-spacing="1.2">DUBAI</text><g fill="#78cdb8" opacity=".8"><path d="M213 89c7-11 18-11 25 0-9-3-17-3-25 0Z"/><path d="M233 80c6-9 14-9 20 0-8-2-13-2-20 0Z"/><path d="M371 67c7-11 18-11 25 0-9-3-17-3-25 0Z"/></g></svg><div class="console-coordinate">FOCUS VECTOR<br><b>24.4538° N / 54.3773° E</b></div></div>
+          <div class="hero-console-foot"><span>SEVEN EMIRATES / ONE ATLAS</span><span>BOUNDARY LAYER <b>ACTIVE</b></span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container stats-line" aria-label="Atlas summary"><div class="stat-item"><span class="stat-number">07</span><div class="stat-text"><strong>Emirates</strong><span>National overview map</span></div></div><div class="stat-item"><span class="stat-number">24+</span><div class="stat-text"><strong>Curated places</strong><span>Landmarks, coast, mountains</span></div></div><div class="stat-item"><span class="stat-number">3D</span><div class="stat-text"><strong>Built-form lens</strong><span>Illustrative isometric preview</span></div></div></div>
+
+    <section class="section container" id="atlas" aria-labelledby="atlasHeading">
+      <div class="section-head"><div><div class="section-index">01 / NATIONAL VIEWPORT</div><h2 id="atlasHeading">The whole U.A.E., <span>one tap away.</span></h2><p class="section-copy">Pick two places to trace an illustrative connection, select an emirate, or let the atlas choose a destination for you. Tap a region or marker to explore its place list.</p></div><div class="data-flag"><i></i> Boundary map · place pins are approximate</div></div>
+      <div class="trip-bar">
+        <div><label class="field-label" for="originSelect">Starting place</label><div class="select-wrap"><select id="originSelect" aria-label="Starting place"></select><svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <button class="swap-button" id="swapPlaces" type="button" title="Swap places" aria-label="Swap start and destination"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 5h9m0 0L9.5 2.5M12 5 9.5 7.5M13 11H4m0 0 2.5-2.5M4 11l2.5 2.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div><label class="field-label" for="destSelect">Destination / focus</label><div class="select-wrap"><select id="destSelect" aria-label="Destination place"></select><svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <button class="trip-button random" id="randomPlace" type="button"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m8 1 1.5 4.3L14 7l-4.5 1.7L8 13l-1.5-4.3L2 7l4.5-1.7L8 1Zm5 9 .7 2 2.1.8-2.1.8-.7 2-.7-2-2.1-.8 2.1-.8.7-2Z" stroke="currentColor" stroke-width="1.05" stroke-linejoin="round"/></svg> Surprise place</button>
+        <button class="trip-button" id="randomPair" type="button"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="3.3" cy="12.4" r="1.7" stroke="currentColor" stroke-width="1.2"/><circle cx="12.7" cy="3.6" r="1.7" stroke="currentColor" stroke-width="1.2"/><path d="M5 11.3c2.5-4.2 3.2-6 6-6.7" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/></svg> Random pair</button>
+      </div>
+
+      <div class="atlas-grid">
+        <article class="map-card" aria-label="Interactive map of all seven UAE emirates">
+          <div class="panel-head"><div><div class="panel-title">UNITED ARAB EMIRATES <span style="color:#5e9a91">/</span> ALL 7 EMIRATES</div><div class="panel-subtitle" id="mapStatus">NATIONAL BOUNDARIES · SELECT A REGION OR CITY MARKER</div></div><div class="panel-actions"><button class="map-control" id="zoomOut" type="button" aria-label="Zoom out">−</button><button class="map-control" id="zoomIn" type="button" aria-label="Zoom in">+</button><button class="map-control" id="resetZoom" type="button" aria-label="Reset map view" title="Reset map">⌖</button></div></div>
+          <div class="map-body"><div class="map-overlay-badge"><b>ATLAS LAYER 01</b> · U.A.E. ADMIN BOUNDARIES</div><svg class="uae-map" id="uaeMap" viewBox="0 0 720 520" role="img" aria-labelledby="uaeTitle uaeDesc" preserveAspectRatio="xMidYMid meet"><title id="uaeTitle">Map of the seven emirates of the United Arab Emirates</title><desc id="uaeDesc">Interactive boundary map showing Abu Dhabi, Dubai, Sharjah, Ajman, Umm Al Quwain, Ras Al Khaimah, and Fujairah, with approximate landmark pins.</desc><defs><linearGradient id="regionGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#42bba6"/><stop offset="1" stop-color="#2d5fc5"/></linearGradient><linearGradient id="linkGradient" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#f4bb72"/><stop offset=".48" stop-color="#66e3ce"/><stop offset="1" stop-color="#bbfff1"/></linearGradient><filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="720" height="520" fill="#07191c"/><g opacity=".45"><path class="map-gridline" d="M50 0V520"/><path class="map-gridline" d="M100 0V520"/><path class="map-gridline" d="M150 0V520"/><path class="map-gridline" d="M200 0V520"/><path class="map-gridline" d="M250 0V520"/><path class="map-gridline" d="M300 0V520"/><path class="map-gridline" d="M350 0V520"/><path class="map-gridline" d="M400 0V520"/><path class="map-gridline" d="M450 0V520"/><path class="map-gridline" d="M500 0V520"/><path class="map-gridline" d="M550 0V520"/><path class="map-gridline" d="M600 0V520"/><path class="map-gridline" d="M650 0V520"/><path class="map-gridline" d="M700 0V520"/><path class="map-gridline" d="M0 40H720"/><path class="map-gridline" d="M0 80H720"/><path class="map-gridline" d="M0 120H720"/><path class="map-gridline" d="M0 160H720"/><path class="map-gridline" d="M0 200H720"/><path class="map-gridline" d="M0 240H720"/><path class="map-gridline" d="M0 280H720"/><path class="map-gridline" d="M0 320H720"/><path class="map-gridline" d="M0 360H720"/><path class="map-gridline" d="M0 400H720"/><path class="map-gridline" d="M0 440H720"/><path class="map-gridline" d="M0 480H720"/><path class="map-gridline" d="M0 520H720"/></g><g opacity=".35"><circle class="map-radar" cx="360" cy="250" r="110"/><circle class="map-radar" cx="360" cy="250" r="190"/><circle class="map-radar" cx="360" cy="250" r="270"/></g><text class="map-water-label" x="132" y="102" transform="rotate(-17 132 102)">ARABIAN GULF</text><text class="map-water-label" x="656" y="306" transform="rotate(-72 656 306)">GULF OF OMAN</text><g id="mapContents"><g id="emirateLayer"><path class="region" data-emirate="fujairah" d="M637.7,139.9 L641.3,142.0 L654.8,134.5 L655.4,130.7 L659.6,127.0 L657.0,161.6 L647.5,160.2 L650.1,169.0 L645.6,179.2 L643.5,174.0 L632.4,163.6 L631.1,159.7 L631.9,141.4Z M644.4,125.6 L637.5,128.8 L636.2,126.2 L629.7,126.2 L628.0,128.6 L634.3,130.5 L626.8,140.9 L610.2,140.1 L609.1,132.3 L612.8,128.3 L609.8,125.5 L612.1,118.8 L615.5,122.2 L622.9,124.2 L628.9,120.0 L628.1,116.3 L624.8,116.0 L623.4,113.8 L627.5,108.4 L627.2,105.3 L624.4,102.3 L619.9,104.3 L610.0,103.5 L608.2,90.1 L614.7,88.2 L619.9,83.4 L630.9,81.0 L635.4,82.7 L637.6,86.5 L646.7,85.1 L654.3,88.3 L658.0,99.0 L657.4,113.1 L645.9,121.8Z M651.1,182.9 L646.1,188.4 L643.4,185.3 L644.2,182.5Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Fujairah Emirate"><title>Fujairah Emirate</title></path><path class="region" data-emirate="sharjah" d="M659.6,127.0 L655.4,130.7 L650.5,129.7 L648.1,126.1 L644.4,125.6 L645.9,121.8 L657.4,113.1 L656.8,120.7Z M632.4,163.6 L643.5,174.0 L645.6,179.2 L650.1,169.0 L647.5,160.2 L657.0,161.6 L659.7,173.9 L652.9,174.6 L650.1,183.4 L644.2,182.5 L643.4,185.3 L636.2,184.0 L634.5,181.5 L635.5,175.4 L630.9,166.0Z M609.1,132.3 L610.2,140.1 L605.9,145.3 L609.3,151.6 L605.5,161.2 L608.9,174.7 L599.1,175.2 L586.9,186.4 L585.6,190.7 L587.0,212.8 L580.7,213.1 L571.0,210.7 L572.2,202.4 L569.7,185.2 L564.6,171.0 L569.3,163.4 L564.2,145.6 L543.3,129.0 L534.5,130.9 L527.9,128.9 L532.7,126.6 L532.9,121.9 L535.6,122.1 L540.3,117.0 L551.3,121.2 L563.3,121.0 L565.6,113.8 L548.7,108.0 L551.6,100.7 L565.4,110.1 L576.5,115.3 L583.8,122.2 L586.9,130.3 L589.9,132.9 L600.0,130.5 L600.3,123.6 L603.0,123.4 L605.0,126.3 L607.7,118.3 L612.1,118.8 L607.8,127.3Z M644.7,136.8 L644.3,133.2 L646.0,132.4 L647.8,133.7 L647.2,136.0Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Sharjah Emirate"><title>Sharjah Emirate</title></path><path class="region" data-emirate="ras-al-khaimah" d="M637.7,139.9 L631.9,141.4 L630.9,158.5 L632.4,163.6 L630.9,166.0 L635.5,175.4 L635.1,183.0 L643.4,185.3 L646.1,188.4 L639.8,193.5 L625.1,195.4 L615.1,186.9 L612.6,176.9 L608.9,174.7 L605.5,161.2 L609.3,151.0 L605.9,145.3 L610.2,140.1 L627.6,140.5 L630.1,134.7 L634.3,130.7 L628.0,128.6 L631.7,125.1 L636.6,126.4 L637.5,128.8 L641.0,128.2 L642.4,132.9 L637.9,136.0Z M630.9,81.0 L619.9,83.4 L614.7,88.2 L607.7,91.0 L610.0,103.5 L619.9,104.3 L624.4,102.3 L627.2,105.3 L627.5,108.4 L623.4,113.8 L624.8,116.0 L628.1,116.3 L628.6,121.1 L621.6,124.0 L608.6,117.8 L605.0,126.3 L597.1,117.1 L598.1,112.5 L591.7,104.5 L587.3,85.3 L580.3,80.4 L583.4,77.0 L596.8,69.7 L606.9,58.3 L604.1,64.7 L606.0,65.4 L607.7,56.9 L615.8,47.8 L617.0,43.3 L612.9,46.9 L618.8,35.8 L621.6,25.9 L630.8,24.0 L632.2,24.2 L634.8,32.2 L633.2,51.1 L629.3,58.4 L633.4,66.3 L629.5,70.8Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Ras Al Khaimah Emirate"><title>Ras Al Khaimah Emirate</title></path><path class="region" data-emirate="dubai" d="M527.9,128.9 L534.5,130.9 L543.3,129.0 L564.2,145.6 L569.3,163.4 L564.6,171.0 L569.6,184.1 L571.9,208.0 L568.1,212.5 L542.2,224.4 L509.8,225.9 L507.4,225.1 L504.6,220.5 L488.2,175.0 L493.7,171.8 L493.0,169.0 L497.7,168.6 L519.7,141.5 L520.2,137.4 L522.6,135.3 L524.6,135.6 L527.1,140.1 L524.9,144.4 L528.4,143.3 L529.0,140.9 L525.2,132.2Z M625.1,195.4 L633.3,194.9 L626.7,207.0 L621.4,207.8Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Dubai Emirate"><title>Dubai Emirate</title></path><path class="region" data-emirate="abu-dhabi" d="M571.0,210.7 L580.7,213.1 L587.0,212.8 L588.9,217.0 L589.3,219.6 L585.8,222.8 L585.0,227.4 L582.0,231.2 L583.9,249.3 L588.4,254.3 L588.0,261.0 L581.5,276.1 L590.8,278.5 L599.9,275.8 L603.6,277.4 L611.7,296.4 L610.3,298.6 L587.9,306.5 L582.4,303.7 L568.0,304.1 L544.3,312.6 L544.9,317.0 L553.5,324.7 L554.5,339.0 L547.0,351.8 L542.9,368.7 L534.2,380.1 L527.4,406.6 L515.6,427.6 L511.2,444.8 L510.7,484.7 L502.4,495.7 L500.5,496.0 L183.5,452.6 L63.3,296.8 L60.8,290.1 L60.3,272.5 L63.0,268.7 L63.1,262.6 L60.9,257.7 L63.3,254.9 L67.1,261.2 L68.4,276.5 L70.2,277.7 L72.0,275.7 L73.2,269.5 L76.7,277.2 L79.5,276.4 L81.6,269.6 L83.9,267.8 L86.5,271.7 L85.7,286.6 L87.5,300.9 L90.2,307.4 L100.7,308.9 L105.0,312.4 L106.3,311.8 L105.4,309.2 L108.1,308.8 L116.0,308.9 L122.3,312.5 L133.3,312.1 L156.4,306.5 L185.5,286.8 L186.2,280.3 L188.7,278.9 L198.7,288.3 L203.6,286.8 L211.4,288.7 L217.0,286.7 L231.8,288.7 L239.2,284.9 L246.8,290.9 L251.8,288.7 L256.7,291.0 L258.8,290.5 L257.1,289.5 L256.2,284.9 L259.0,284.3 L265.3,288.2 L270.0,294.0 L276.9,294.5 L293.9,291.2 L298.0,294.7 L303.1,294.3 L311.8,301.1 L316.8,299.7 L320.2,300.9 L325.9,297.9 L347.9,298.7 L356.8,293.4 L378.2,287.8 L386.2,279.7 L394.4,277.3 L403.1,270.6 L410.6,272.7 L418.5,264.3 L423.4,254.5 L423.1,249.4 L425.1,248.4 L423.4,246.5 L430.2,248.4 L426.9,242.7 L434.4,246.5 L434.1,242.9 L425.1,240.9 L414.9,234.4 L419.2,231.5 L420.8,234.4 L420.9,231.8 L423.4,229.7 L426.8,237.1 L429.8,239.4 L432.8,239.0 L430.2,237.0 L435.4,238.1 L442.2,225.8 L439.6,222.7 L443.0,221.4 L444.1,217.6 L446.4,216.5 L443.0,205.2 L451.0,197.7 L455.0,199.6 L458.6,198.0 L457.6,194.0 L483.5,176.5 L488.2,175.0 L489.3,176.4 L507.4,225.1 L512.4,226.2 L542.2,224.4Z M320.2,285.9 L316.6,285.1 L318.5,282.1 L328.4,276.1 L335.2,276.1 L344.0,270.0 L345.9,275.5 L357.3,280.1 L358.6,284.0 L356.8,287.1 L348.6,288.2 L344.9,286.7 L342.7,283.3 L342.3,286.7 L334.9,289.8Z M386.7,276.5 L385.4,274.0 L376.9,270.4 L375.6,266.8 L377.3,264.0 L380.0,262.9 L386.4,269.6 L387.7,272.9Z M185.4,260.5 L190.0,256.5 L192.9,257.4 L195.0,263.1 L187.6,272.9 L183.2,265.6Z M278.6,271.6 L272.8,268.1 L271.6,270.1 L261.6,269.8 L261.4,268.3 L262.6,266.1 L268.5,266.8 L279.5,261.6 L284.1,263.9 L283.4,259.6 L290.3,251.1 L291.2,254.0 L294.1,255.6 L293.3,260.9 L281.5,266.8Z M410.6,247.5 L404.6,245.6 L404.6,243.5 L412.3,236.1 L412.3,241.5 L419.1,245.6 L421.5,249.5Z M396.1,267.3 L390.6,268.7 L385.7,264.5 L385.9,261.5 L391.9,258.7 L397.0,266.1Z M403.5,256.6 L404.8,259.7 L403.4,263.6 L401.4,264.6 L397.7,257.7 L401.7,259.0 L399.3,255.0Z M152.5,233.8 L155.3,235.7 L156.2,239.0 L153.0,242.5 L149.2,239.6Z M114.5,273.0 L116.0,272.3 L117.1,274.0 L114.9,278.7 L113.2,277.6Z M79.6,224.5 L81.5,226.8 L80.3,230.3 L79.9,227.1 L78.2,226.6Z M246.0,185.4 L248.3,185.8 L248.3,190.9Z M389.2,136.8 L391.7,137.6 L392.8,142.4 L387.6,139.2Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Abu Dhabi Emirate"><title>Abu Dhabi Emirate</title></path><path class="region" data-emirate="umm-al-quwain" d="M603.0,123.4 L600.3,123.6 L600.0,130.5 L593.2,133.0 L588.7,132.5 L583.8,122.2 L576.5,115.3 L565.4,110.1 L551.6,100.7 L554.1,94.0 L558.2,91.0 L554.9,96.7 L555.7,98.5 L565.4,97.6 L569.2,89.2 L580.3,80.4 L587.3,85.3 L591.7,104.5 L598.1,112.5 L597.1,117.1Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Umm Al Quwain Emirate"><title>Umm Al Quwain Emirate</title></path><path class="region" data-emirate="ajman" d="M609.8,125.5 L612.8,128.3 L609.1,132.3 L607.6,128.2Z M548.7,108.0 L565.6,113.8 L563.3,121.0 L551.3,121.2 L540.3,117.0 L542.1,114.5 L544.1,116.2 L545.4,113.5 L546.3,114.5Z" fill-rule="evenodd" tabindex="0" role="button" aria-label="Ajman Emirate"><title>Ajman Emirate</title></path></g><g id="emirateNames" aria-hidden="true"><text class="map-geo-label" x="279" y="387">ABU DHABI</text><text class="map-geo-label" x="508" y="173">DUBAI</text><text class="map-geo-label" x="535" y="103">SHARJAH</text><text class="map-geo-label" x="559" y="128">AJMAN</text><text class="map-geo-label" x="569" y="79">UMM AL QUWAIN</text><text class="map-geo-label" x="610" y="31">RAS AL KHAIMAH</text><text class="map-geo-label" x="650" y="181">FUJAIRAH</text></g><g id="cityPins"></g><path class="explore-link" id="exploreLink" d=""/><g id="tripMarkers"></g></g></svg><div class="map-scale"><i class="scale-line"></i> SYMBOLIC SCALE <span>·</span> NOT A NAVIGATION ROUTE</div></div>
+          <div class="map-foot"><div class="legend-group"><span class="legend-item"><i class="legend-color"></i>Selected emirate</span><span class="legend-item"><i class="legend-color start"></i>Start place</span><span class="legend-item"><i class="legend-line"></i>Explore connection</span></div><span><strong id="mapSpan">—</strong> · straight-line context only</span></div>
+        </article>
+
+        <div class="right-stack">
+          <article class="scene-card" aria-label="Illustrative isometric 3D city model">
+            <div class="panel-head"><div><div class="panel-title">BUILT ENVIRONMENT <span style="color:#8d83cd">/</span> 3D VIEW</div><div class="panel-subtitle" id="sceneSubtitle">ISOMETRIC MASSING · ILLUSTRATIVE MODEL</div></div><button class="orbit-button" id="orbitButton" type="button">⟳ ORBIT</button></div>
+            <div class="scene-stage" id="sceneStage"><span class="scene-chip">3D-STYLE / NOT TO SCALE</span><svg id="cityScene" class="scene-svg" viewBox="0 0 540 340" role="img" aria-label="Stylized 3D city view"></svg></div>
+            <div class="scene-bottom"><span>FOCUS BUILDING <b id="scenePlaceName">Burj Khalifa</b></span><span>MODEL <b>V.01</b></span></div>
+          </article>
+          <article class="place-card" aria-label="Selected place details"><div><div class="place-kicker" id="placeKicker">DESTINATION FOCUS · DUBAI</div><h3 id="placeName">Burj Khalifa</h3><div class="place-subtitle" id="placeSubtitle">Downtown Dubai · Iconic tower</div></div><button class="place-save" id="savePlace" type="button" aria-label="Save place" title="Save place"><svg width="13" height="14" viewBox="0 0 16 17" fill="none" aria-hidden="true"><path d="M4.4 2.2h7.2c.7 0 1.2.5 1.2 1.2v11.3L8 11.8l-4.8 2.9V3.4c0-.7.5-1.2 1.2-1.2Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg></button><div class="place-coords"><span>COORDINATES <strong id="placeCoords">25.1972°N / 55.2744°E</strong></span><span>EMIRATE <strong id="placeEmirate">DUBAI</strong></span></div></article>
+        </div>
+      </div>
+
+      <div class="emirate-tabs" id="emirateTabs" role="group" aria-label="Filter places by emirate"></div>
+      <div class="popular-wrap" id="destinations"><div class="popular-head"><strong id="popularTitle">Main places · all emirates</strong><span>SELECT A TILE TO FOCUS THE ATLAS</span></div><div class="popular-grid" id="popularGrid"></div></div>
+    </section>
+
+    <section class="climate-section container" id="heat-lens" aria-labelledby="heatHeading">
+      <div class="section-head"><div><div class="section-index">02 / TIME-SHIFTED HEAT LENS</div><h2 id="heatHeading">Places change with the <span>hour.</span></h2><p class="section-copy">Scrub a synthetic day curve to preview how a heat-aware explorer could help plan timing. Values below are deliberately simulated—not a UAE forecast.</p></div><div class="data-flag"><i></i> Synthetic scenario only</div></div>
+      <div class="climate-card"><div class="climate-info"><div class="eyebrow"><i></i> SELECTED LOCATION / <span id="heatPlace">DUBAI</span></div><h3>Shift the moment, change the lens.</h3><p id="heatAdvice">A later visit appears cooler in this sample curve. A real version would use a local hourly forecast and shade data.</p></div><div class="heat-time" id="heatTimeline" role="group" aria-label="Choose a simulated time"></div><div class="comfort-readout"><span>SAMPLE TEMP<br><b id="heatHourLabel">15:00</b></span><div class="comfort-temp"><span id="heatTemp">42</span>°C</div><div class="comfort-index"><span id="comfortScore">29</span>/100 comfort index</div><small>Invented prototype values · not live weather</small></div></div>
+    </section>
+
+    <footer class="footer container"><span><strong>Prototype boundary attribution:</strong> UAE first-level administrative geometry adapted and simplified from <a href="https://simplemaps.com/gis/country/ae" target="_blank" rel="noreferrer">Simplemaps UAE GIS data</a>, available under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. Place pins and 3D massing are approximate illustrations. This site has no live weather, road routing, navigation, or verified venue/access data.</span><span>SOLA UAE / ATLAS INTERFACE 01.0</span></footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="savedModal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="savedHeading"><div class="modal-top"><div><div class="eyebrow"><i></i> LOCAL COLLECTION</div><h2 id="savedHeading">Saved places</h2></div><button class="modal-close" type="button" id="closeSaved" aria-label="Close saved places">×</button></div><p class="modal-copy">Your collection stays in this browser. In a sandboxed preview, it may last only for this session.</p><div class="saved-grid" id="savedGrid"></div></section></div>
+
+  <!-- SOLA_USER_CONTEXT -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    (() => {
+      const currentUser = window.SOLA_USER || { email: 'preview@local' };
+      const places = [
+        {id:'abu-corniche',name:'Abu Dhabi Corniche',emirate:'abu-dhabi',city:'Abu Dhabi',area:'Corniche Road',lat:24.4840,lon:54.3420,kind:'coast',tag:'Waterfront',featured:true},
+        {id:'qasar-al-watan',name:'Qasr Al Watan',emirate:'abu-dhabi',city:'Abu Dhabi',area:'Al Ras Al Akhdar',lat:24.4616,lon:54.3052,kind:'heritage',tag:'Landmark',featured:true},
+        {id:'grand-mosque',name:'Sheikh Zayed Grand Mosque',emirate:'abu-dhabi',city:'Abu Dhabi',area:'Al Rawdah',lat:24.4123,lon:54.4750,kind:'mosque',tag:'Architecture',featured:true},
+        {id:'louvre-abu-dhabi',name:'Louvre Abu Dhabi',emirate:'abu-dhabi',city:'Abu Dhabi',area:'Saadiyat Island',lat:24.5332,lon:54.3981,kind:'museum',tag:'Culture',featured:true},
+        {id:'yas-island',name:'Yas Island',emirate:'abu-dhabi',city:'Abu Dhabi',area:'Yas Island',lat:24.4907,lon:54.6030,kind:'coast',tag:'Island',featured:true},
+        {id:'al-ain-oasis',name:'Al Ain Oasis',emirate:'abu-dhabi',city:'Al Ain',area:'Al Ain',lat:24.2167,lon:55.7620,kind:'oasis',tag:'Oasis',featured:true},
+        {id:'jebel-hafeet',name:'Jebel Hafeet',emirate:'abu-dhabi',city:'Al Ain',area:'Al Ain',lat:24.0586,lon:55.7780,kind:'mountain',tag:'Mountain',featured:false},
+        {id:'qasr-muwaiji',name:'Qasr Al Muwaiji',emirate:'abu-dhabi',city:'Al Ain',area:'Al Ain',lat:24.2160,lon:55.7970,kind:'heritage',tag:'Heritage',featured:false},
+        {id:'burj-khalifa',name:'Burj Khalifa',emirate:'dubai',city:'Dubai',area:'Downtown Dubai',lat:25.1972,lon:55.2744,kind:'tower',tag:'Architecture',featured:true},
+        {id:'museum-future',name:'Museum of the Future',emirate:'dubai',city:'Dubai',area:'Trade Centre',lat:25.2193,lon:55.2821,kind:'museum',tag:'Architecture',featured:true},
+        {id:'palm-jumeirah',name:'Palm Jumeirah',emirate:'dubai',city:'Dubai',area:'Jumeirah Coast',lat:25.1124,lon:55.1392,kind:'coast',tag:'Island',featured:true},
+        {id:'dubai-marina',name:'Dubai Marina',emirate:'dubai',city:'Dubai',area:'Dubai Marina',lat:25.0805,lon:55.1403,kind:'tower',tag:'Skyline',featured:true},
+        {id:'al-fahidi',name:'Al Fahidi Historical Neighbourhood',emirate:'dubai',city:'Dubai',area:'Bur Dubai',lat:25.2631,lon:55.2972,kind:'heritage',tag:'Heritage',featured:true},
+        {id:'dubai-frame',name:'Dubai Frame',emirate:'dubai',city:'Dubai',area:'Zabeel Park',lat:25.2355,lon:55.3002,kind:'museum',tag:'Landmark',featured:false},
+        {id:'expo-city',name:'Expo City Dubai',emirate:'dubai',city:'Dubai',area:'Dubai South',lat:24.9602,lon:55.1540,kind:'museum',tag:'District',featured:false},
+        {id:'sharjah-noor',name:'Al Noor Island',emirate:'sharjah',city:'Sharjah',area:'Khalid Lagoon',lat:25.3392,lon:55.3821,kind:'oasis',tag:'Island',featured:true},
+        {id:'sharjah-art',name:'Sharjah Art Museum',emirate:'sharjah',city:'Sharjah',area:'Arts Area',lat:25.3576,lon:55.3911,kind:'museum',tag:'Culture',featured:true},
+        {id:'ajman-corniche',name:'Ajman Corniche',emirate:'ajman',city:'Ajman',area:'Ajman Coast',lat:25.4090,lon:55.4470,kind:'coast',tag:'Waterfront',featured:true},
+        {id:'uaq-mangroves',name:'Umm Al Quwain Mangroves',emirate:'umm-al-quwain',city:'Umm Al Quwain',area:'Khor Al Beidah',lat:25.5630,lon:55.5550,kind:'oasis',tag:'Nature',featured:true},
+        {id:'jebel-jais',name:'Jebel Jais',emirate:'ras-al-khaimah',city:'Ras Al Khaimah',area:'Hajar Mountains',lat:25.9520,lon:56.1530,kind:'mountain',tag:'Mountain',featured:true},
+        {id:'marjan-island',name:'Al Marjan Island',emirate:'ras-al-khaimah',city:'Ras Al Khaimah',area:'Marjan Island',lat:25.6700,lon:55.7400,kind:'coast',tag:'Island',featured:true},
+        {id:'fujairah-corniche',name:'Fujairah Corniche',emirate:'fujairah',city:'Fujairah',area:'Fujairah Coast',lat:25.1288,lon:56.3265,kind:'coast',tag:'Waterfront',featured:true},
+        {id:'al-bidya',name:'Al Bidya Mosque',emirate:'fujairah',city:'Al Bidya',area:'Fujairah',lat:25.4370,lon:56.3540,kind:'mosque',tag:'Heritage',featured:true},
+        {id:'khor-fakkan',name:'Khor Fakkan Beach',emirate:'sharjah',city:'Khor Fakkan',area:'East Coast',lat:25.3310,lon:56.3410,kind:'coast',tag:'Coast',featured:false},
+        {id:'hatta-wadi',name:'Hatta Wadi Hub',emirate:'dubai',city:'Hatta',area:'Hajar foothills',lat:24.8000,lon:56.1160,kind:'mountain',tag:'Outdoors',featured:true},
+        {id:'hatta-dam',name:'Hatta Dam',emirate:'dubai',city:'Hatta',area:'Hatta',lat:24.8230,lon:56.1120,kind:'coast',tag:'Water',featured:false}
+      ];
+      const emirates = [
+        {id:'abu-dhabi',name:'Abu Dhabi',city:{name:'Abu Dhabi',lat:24.4539,lon:54.3773},defaultPlace:'abu-corniche'},
+        {id:'dubai',name:'Dubai',city:{name:'Dubai',lat:25.2048,lon:55.2708},defaultPlace:'burj-khalifa'},
+        {id:'sharjah',name:'Sharjah',city:{name:'Sharjah',lat:25.3463,lon:55.4121},defaultPlace:'sharjah-noor'},
+        {id:'ajman',name:'Ajman',city:{name:'Ajman',lat:25.4052,lon:55.5136},defaultPlace:'ajman-corniche'},
+        {id:'umm-al-quwain',name:'Umm Al Quwain',city:{name:'Umm Al Quwain',lat:25.5647,lon:55.5552},defaultPlace:'uaq-mangroves'},
+        {id:'ras-al-khaimah',name:'Ras Al Khaimah',city:{name:'Ras Al Khaimah',lat:25.7895,lon:55.9432},defaultPlace:'jebel-jais'},
+        {id:'fujairah',name:'Fujairah',city:{name:'Fujairah',lat:25.1288,lon:56.3265},defaultPlace:'fujairah-corniche'}
+      ];
+      const timeCurve = [
+        {time:'13:00',temp:41},{time:'15:00',temp:42},{time:'17:00',temp:40},{time:'19:00',temp:37},{time:'20:00',temp:35},{time:'21:00',temp:33}
+      ];
+      const featuredIds = ['burj-khalifa','grand-mosque','museum-future','louvre-abu-dhabi','palm-jumeirah','al-ain-oasis','jebel-jais','hatta-wadi'];
+      const savedKey = `sola-uae-saved-places-v1:${encodeURIComponent(String(currentUser.email || 'preview').toLowerCase())}`;
+      const ephemeral = {};
+      let originId = 'abu-corniche', destinationId = 'burj-khalifa', activeEmirate = 'all', selectedHour = 1, zoom = 1, toastTimer;
+      const originSelect = document.getElementById('originSelect'), destSelect = document.getElementById('destSelect');
+      const mapProjection = (() => {
+        const minLon=51.56934655039073,maxLon=56.383636914078046,minLat=22.62094597231017,maxLat=26.074791997052756;
+        const c=Math.cos(((minLat+maxLat)/2)*Math.PI/180), scale=Math.min(672/((maxLon-minLon)*c),472/(maxLat-minLat));
+        const width=(maxLon-minLon)*c*scale,height=(maxLat-minLat)*scale;
+        return {minLon,maxLon,minLat,maxLat,c,scale,ox:(720-width)/2,oy:(520-height)/2};
+      })();
+      const getPlace = id => places.find(place => place.id === id) || places[0];
+      const emirateName = id => (emirates.find(item => item.id === id) || {}).name || id;
+      const safeRead = (key, fallback) => { try { const value = localStorage.getItem(key); if (value !== null) return JSON.parse(value); } catch (_) {} return Object.prototype.hasOwnProperty.call(ephemeral,key) ? ephemeral[key] : fallback; };
+      const safeWrite = (key, value) => { ephemeral[key] = value; try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {} return true; };
+      const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      function showToast(message) { const node=document.getElementById('toast'); node.textContent=message; node.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>node.classList.remove('show'),2600); }
+      function point(lat,lon) { const p=mapProjection; return {x:p.ox+(lon-p.minLon)*p.c*p.scale,y:p.oy+(p.maxLat-lat)*p.scale}; }
+      function fillSelects() {
+        const makeOptions = () => emirates.map(em => `<optgroup label="${escapeHTML(em.name)}">${places.filter(p=>p.emirate===em.id).map(p=>`<option value="${p.id}">${escapeHTML(p.name)} · ${escapeHTML(p.city)}</option>`).join('')}</optgroup>`).join('');
+        originSelect.innerHTML=makeOptions(); destSelect.innerHTML=makeOptions(); originSelect.value=originId; destSelect.value=destinationId;
+      }
+      function fillEmirateTabs() {
+        const tabs=document.getElementById('emirateTabs');
+        tabs.innerHTML=`<button class="emirate-tab" type="button" data-emirate-filter="all" aria-pressed="true">ALL EMIRATES</button>`+emirates.map(em=>`<button class="emirate-tab" type="button" data-emirate-filter="${em.id}" aria-pressed="false">${em.name.toUpperCase()}</button>`).join('');
+        tabs.querySelectorAll('[data-emirate-filter]').forEach(button=>button.addEventListener('click',()=>setEmirateFilter(button.dataset.emirateFilter)));
+      }
+      function renderCityPins() {
+        const pinLayer=document.getElementById('cityPins');
+        pinLayer.innerHTML=emirates.map(em=>{
+          const pos=point(em.city.lat,em.city.lon), placeId=em.defaultPlace;
+          return `<g class="city-pin" data-city-place="${placeId}" transform="translate(${pos.x.toFixed(1)} ${pos.y.toFixed(1)})" tabindex="0" role="button" aria-label="Focus ${escapeHTML(em.city.name)}"><circle r="7" fill="rgba(86,226,205,.12)"/><circle class="pin-dot" r="2.7"/><title>${escapeHTML(em.name)} / ${escapeHTML(em.city.name)}</title></g>`;
+        }).join('');
+        pinLayer.querySelectorAll('[data-city-place]').forEach(pin=>{const action=()=>setDestination(pin.dataset.cityPlace);pin.addEventListener('click',action);pin.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action();}});});
+      }
+      function pathBetween(a,b) {
+        const A=point(a.lat,a.lon),B=point(b.lat,b.lon),dx=B.x-A.x,dy=B.y-A.y,len=Math.max(1,Math.hypot(dx,dy));
+        const bend=Math.min(54,Math.max(15,len*.15));const cx=(A.x+B.x)/2+(-dy/len)*bend,cy=(A.y+B.y)/2+(dx/len)*bend;
+        return `M ${A.x.toFixed(1)} ${A.y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${B.x.toFixed(1)} ${B.y.toFixed(1)}`;
+      }
+      function geoDistance(a,b) {
+        const r=6371, rad=x=>x*Math.PI/180, dLat=rad(b.lat-a.lat),dLon=rad(b.lon-a.lon);
+        const s=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
+        return Math.round(r*2*Math.atan2(Math.sqrt(s),Math.sqrt(1-s)));
+      }
+      function renderMapRoute() {
+        const a=getPlace(originId),b=getPlace(destinationId),A=point(a.lat,a.lon),B=point(b.lat,b.lon);
+        document.getElementById('exploreLink').setAttribute('d',pathBetween(a,b));
+        document.getElementById('tripMarkers').innerHTML=`<g transform="translate(${A.x.toFixed(1)} ${A.y.toFixed(1)})"><circle r="11" class="place-pulse"/><circle r="4.2" class="origin-dot"/><rect class="map-label-box" x="-24" y="13" width="48" height="15" rx="4"/><text class="map-label-text" x="0" y="23">ORIGIN</text></g><g transform="translate(${B.x.toFixed(1)} ${B.y.toFixed(1)})"><circle r="15" class="place-pulse"/><circle r="5.4" class="place-main-dot"/><rect class="map-label-box" x="-47" y="-29" width="94" height="16" rx="4"/><text class="map-label-text" x="0" y="-18">${escapeHTML(b.name.toUpperCase().slice(0,18))}</text></g>`;
+        document.getElementById('mapSpan').textContent=`${geoDistance(a,b)} km`;
+        document.getElementById('mapStatus').textContent=`FOCUS: ${emirateName(b.emirate).toUpperCase()} · SELECT A REGION OR CITY MARKER`;
+      }
+      function box3d(x,y,w,d,h,color,accent='#68e3cf') {
+        const sx=d, sy=d*.48;
+        const front=`${x},${y-h} ${x+w},${y-h} ${x+w},${y} ${x},${y}`;
+        const side=`${x+w},${y-h} ${x+w+sx},${y-h-sy} ${x+w+sx},${y-sy} ${x+w},${y}`;
+        const top=`${x},${y-h} ${x+sx},${y-h-sy} ${x+w+sx},${y-h-sy} ${x+w},${y-h}`;
+        let windows='';
+        for(let row=0;row<Math.max(2,Math.floor(h/17));row++){
+          const yy=y-h+10+row*14;if(yy>y-4)continue;
+          for(let col=0;col<Math.max(2,Math.floor(w/11));col++){const xx=x+6+col*10;if(xx<x+w-3)windows+=`<path d="M${xx} ${yy}v5" stroke="${accent}" stroke-width="1" opacity=".42"/>`;}
+        }
+        return `<g><polygon points="${side}" fill="${color}" opacity=".84" stroke="${accent}" stroke-opacity=".3" stroke-width=".65"/><polygon points="${front}" fill="#${color.replace('#','')}" opacity=".72" stroke="${accent}" stroke-opacity=".48" stroke-width=".7"/><polygon points="${top}" fill="#32786f" opacity=".8" stroke="${accent}" stroke-opacity=".62" stroke-width=".7"/>${windows}<path d="M${x+w} ${y-h}V${y}" stroke="${accent}" stroke-width="1" opacity=".32"/></g>`;
+      }
+      function renderScene(place) {
+        const scene=document.getElementById('cityScene');
+        const emirate=place.emirate; const isMountain=place.kind==='mountain'; const isMosque=place.kind==='mosque'; const isMuseum=place.kind==='museum'; const isHeritage=place.kind==='heritage'; const isOasis=place.kind==='oasis'; const isCoast=place.kind==='coast';
+        let background='';
+        if(isMountain) background='<path d="M0 246 82 137 130 194 197 98 251 169 319 110 405 211 487 141 540 215v125H0Z" fill="#102d37" stroke="#327c79" stroke-opacity=".56" stroke-width="1"/><path d="m80 139 26 38-25-14-18 20m134-85 30 41-31-15-16 21m138-30 28 34-28-13-17 19m180-50 30 33-30-12-16 20" fill="none" stroke="#51a7a0" stroke-opacity=".55" stroke-width="1.2"/>';
+        else if(isCoast) background='<path d="M0 236c70-16 105 16 160 3 49-12 80-29 130-13 59 20 90 17 133-3 45-21 69-17 117-2v119H0Z" fill="#0b3941" stroke="#37a6a2" stroke-opacity=".38"/><path d="M15 275c42-10 79 16 120 4m72-25c45-13 72 21 111 9m58-25c42-13 69 18 109 6m-405 56c42-10 71 16 116 6m104-9c33-9 66 15 102 4" stroke="#3eb7ae" stroke-opacity=".34" stroke-width="1" fill="none"/>';
+        else background='<path d="M0 243h540v97H0Z" fill="#0a282a"/><path d="M0 255 540 255M0 274 540 274M0 294 540 294M0 315 540 315M64 225l83 115m25-115 67 115m41-115 51 115m42-115 34 115m41-115 17 115" stroke="#2f8780" stroke-opacity=".29" stroke-width=".8"/>';
+        const colors=['#155c5d','#1b6969','#214b66','#194f56','#2b5c72','#17463f','#1a5260','#326174'];
+        let buildings='';
+        const baseY=295;
+        const regulars=[
+          [65,baseY,34,16,50],[115,baseY+4,40,18,82],[171,baseY-8,33,16,63],[224,baseY+7,39,20,75],[286,baseY-6,34,17,91],[339,baseY+8,42,18,58],[395,baseY-1,35,17,78],[449,baseY+8,34,16,52]
+        ];
+        regulars.forEach((b,i)=>{buildings+=box3d(b[0],b[1],b[2],b[3],b[4],colors[i%colors.length]);});
+        if(isMountain) {
+          buildings+=box3d(220,baseY+3,70,25,38,'#265a5e','#a1dfbd');
+          buildings+='<path d="M261 254v-27l13-9 13 9v27" fill="#347e78" stroke="#91e8cf" stroke-width="1"/><path d="M267 254v-14h14v14" fill="#09191d" stroke="#73dcc5" stroke-width=".8"/>';
+          buildings+='<text x="270" y="194" text-anchor="middle" fill="#b5eede" font-family="monospace" font-size="8" letter-spacing="1.2">EASTERN RIDGE</text>';
+        } else if(isMosque) {
+          buildings+='<g stroke="#9cefe0" stroke-opacity=".85" stroke-width="1.2"><path d="M208 291v-79m104 79v-89m-52 89v-68"/><path d="M201 214h14m90-11h14m-65 18h14"/></g><path d="M229 291v-45c0-28 20-44 31-44s31 16 31 44v45Z" fill="#17736b" stroke="#8af1dc" stroke-width="1.2"/><path d="M238 246c1-21 13-34 22-34s21 13 22 34" fill="none" stroke="#c2fff0" stroke-width="1.5"/><path d="M215 291h90v10h-90z" fill="#164d4c" stroke="#83e7d2" stroke-width="1"/><circle cx="260" cy="203" r="2" fill="#e4faad"/>';
+        } else if(isMuseum) {
+          buildings+='<g><polygon points="211,266 267,224 324,254 268,297" fill="#286f70" stroke="#a8f4e5" stroke-width="1.2"/><polygon points="211,266 268,297 268,318 211,286" fill="#124c51" stroke="#7ce2d0" stroke-opacity=".7"/><polygon points="268,297 324,254 324,277 268,318" fill="#10383f" stroke="#7ce2d0" stroke-opacity=".7"/><ellipse cx="268" cy="262" rx="27" ry="9" fill="none" stroke="#d0fff2" stroke-width="1.6"/><ellipse cx="268" cy="262" rx="17" ry="5" fill="none" stroke="#70dbc7" stroke-width="1"/></g>';
+        } else if(isHeritage) {
+          buildings+=box3d(209,baseY+7,42,21,43,'#755845','#ffc482')+box3d(265,baseY+2,51,21,56,'#6b4e3d','#ffc482')+box3d(332,baseY+9,38,20,40,'#79583e','#ffc482');
+          buildings+='<path d="M217 241v-11l9-7 9 7v11m47-7v-13l11-8 11 8v13m45 4v-10l8-6 8 6v10" fill="none" stroke="#ffd19a" stroke-width="1"/>';
+        } else if(isOasis) {
+          buildings+='<g stroke="#8fe5aa" stroke-width="2" stroke-linecap="round"><path d="M271 294v-56m0 13-16-9m16 9 16-12m-16 3-13-15m13 15 13-16M348 296v-42m0 11-14-9m14 9 14-10m-14 2-10-13m10 13 11-13"/></g><g fill="#76b988" opacity=".8"><path d="M250 240q15-3 21 11-15 1-21-11Zm21 9q1-15 15-18-1 14-15 18Zm62-2q13-2 15 10-11 0-15-10Zm15 9q1-13 13-16-1 12-13 16Z"/></g>';
+        } else if(isCoast) {
+          buildings+=box3d(235,baseY-9,42,20,92,'#1c5967','#7ce4dc')+box3d(302,baseY+1,46,21,67,'#235765','#80e2d7');
+        } else {
+          // Supertall landmark: layered crystalline tower with an illuminated spine.
+          buildings+='<g filter="url(#sceneGlow)"><path d="M236 295 246 139 253 108 260 54 267 108 274 139 284 295Z" fill="#176f70" stroke="#9cf8e5" stroke-width="1.15"/><path d="M260 54 267 108 274 139 284 295 260 295Z" fill="#10494f" stroke="#78dfd0" stroke-opacity=".8" stroke-width=".8"/><path d="M251 152h19M249 180h24M247 211h28M244 245h34M241 273h40" stroke="#b5fff0" stroke-opacity=".6" stroke-width=".8"/><path d="M261 61v220" stroke="#e0ffeb" stroke-width="1" opacity=".72"/><path d="M230 295h60" stroke="#95ffe6" stroke-width="1.4"/></g>';
+        }
+        let focus=place.name.toUpperCase(); if(focus.length>23) focus=focus.slice(0,20)+'…';
+        const skyline=emirate==='dubai'?'DUBAI / VERTICAL CITY':emirate==='abu-dhabi'?'ABU DHABI / CULTURAL COAST':emirate==='ras-al-khaimah'?'RAS AL KHAIMAH / MOUNTAIN EDGE':emirate==='fujairah'?'FUJAIRAH / EASTERN COAST':`${emirateName(emirate).toUpperCase()} / CITY FORM`;
+        scene.innerHTML=`<defs><linearGradient id="sceneSky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0e3438"/><stop offset="1" stop-color="#071417"/></linearGradient><filter id="sceneGlow" x="-60%" y="-30%" width="220%" height="180%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="sceneOrb"><stop stop-color="#58d9c6" stop-opacity=".22"/><stop offset="1" stop-color="#58d9c6" stop-opacity="0"/></radialGradient></defs><rect width="540" height="340" fill="url(#sceneSky)"/><circle cx="282" cy="183" r="153" fill="url(#sceneOrb)"/>${background}<g opacity=".25" stroke="#51a49c" stroke-width=".7"><path d="M0 105h540M0 128h540M0 151h540M0 174h540M0 197h540"/><path d="M38 65v238M87 48v252M136 39v258M185 33v260M234 29v264M283 29v264M332 32v261M381 40v254M430 52v240M479 68v224"/></g><g>${buildings}</g><g><rect x="17" y="16" width="4" height="24" rx="2" fill="#6be2cf"/><text x="29" y="25" fill="#b8ddd3" font-family="monospace" font-size="7" letter-spacing="1.1">${escapeHTML(skyline)}</text><text x="29" y="37" fill="#67928a" font-family="monospace" font-size="6" letter-spacing=".9">${escapeHTML(focus)} / MASSING MODEL</text></g><g fill="#b6fff0" opacity=".75"><circle cx="463" cy="62" r="1"/><circle cx="481" cy="93" r="1.2"/><circle cx="440" cy="117" r=".8"/><circle cx="505" cy="143" r=".9"/></g>`;
+        document.getElementById('scenePlaceName').textContent=place.name;
+        document.getElementById('sceneSubtitle').textContent=isMountain?'TERRAIN + BUILT FORM · ILLUSTRATIVE MODEL':'ISOMETRIC MASSING · ILLUSTRATIVE MODEL';
+        document.getElementById('sceneStage').classList.remove('orbit');
+      }
+      function renderPopular() {
+        const grid=document.getElementById('popularGrid');
+        let list=activeEmirate==='all'?featuredIds.map(getPlace):places.filter(p=>p.emirate===activeEmirate);
+        list=list.slice(0,12);
+        if(!list.length){grid.innerHTML='<div class="popular-empty">No sample locations in this filter yet.</div>';return;}
+        const icons={tower:'◈',mosque:'⌂',museum:'◇',mountain:'△',coast:'≈',oasis:'❋',heritage:'▧'};
+        grid.innerHTML=list.map(place=>`<button class="popular-card" data-place-card="${place.id}" type="button" aria-pressed="${place.id===destinationId}"><span class="popular-icon">${icons[place.kind]||'◈'}</span><strong>${escapeHTML(place.name)}</strong><span>${escapeHTML(emirateName(place.emirate))} · ${escapeHTML(place.tag)}</span></button>`).join('');
+        grid.querySelectorAll('[data-place-card]').forEach(button=>button.addEventListener('click',()=>setDestination(button.dataset.placeCard)));
+        document.getElementById('popularTitle').textContent=activeEmirate==='all'?'Main places · all emirates':`Main places · ${emirateName(activeEmirate)}`;
+      }
+      function updatePlaceDetail(place) {
+        document.getElementById('placeKicker').textContent=`DESTINATION FOCUS · ${emirateName(place.emirate).toUpperCase()}`;
+        document.getElementById('placeName').textContent=place.name;
+        document.getElementById('placeSubtitle').textContent=`${place.area} · ${place.tag}`;
+        document.getElementById('placeCoords').textContent=`${place.lat.toFixed(4)}°N / ${place.lon.toFixed(4)}°E`;
+        document.getElementById('placeEmirate').textContent=emirateName(place.emirate).toUpperCase();
+        document.getElementById('heatPlace').textContent=emirateName(place.emirate).toUpperCase();
+        const saved=safeRead(savedKey,[]).includes(place.id);document.getElementById('savePlace').classList.toggle('saved',saved);document.getElementById('savePlace').setAttribute('aria-pressed',String(saved));document.getElementById('savePlace').setAttribute('aria-label',saved?'Remove saved place':'Save place');
+        document.querySelectorAll('[data-place-card]').forEach(card=>card.setAttribute('aria-pressed',String(card.dataset.placeCard===place.id)));
+        document.querySelectorAll('.region').forEach(region=>region.classList.toggle('active-region',region.dataset.emirate===place.emirate));
+        renderScene(place); updateHeatLens();
+      }
+      function updateAtlas() {
+        if(originId===destinationId){const fallback=places.find(p=>p.id!==originId);destinationId=fallback.id;destSelect.value=destinationId;showToast('Start and destination must be different; a new focus was selected.');}
+        const destination=getPlace(destinationId); updatePlaceDetail(destination); renderMapRoute(); renderPopular();
+      }
+      function setDestination(id) {
+        const place=getPlace(id);destinationId=place.id;destSelect.value=destinationId;activeEmirate=place.emirate;
+        document.querySelectorAll('[data-emirate-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.emirateFilter===activeEmirate)));
+        updateAtlas(); showToast(`${place.name} selected in ${emirateName(place.emirate)}.`);
+      }
+      function setEmirateFilter(id) {
+        activeEmirate=id;
+        document.querySelectorAll('[data-emirate-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.emirateFilter===id)));
+        if(id!=='all'){
+          const found=getPlace(destinationId);
+          if(found.emirate!==id){const defaultPlace=(emirates.find(em=>em.id===id)||{}).defaultPlace;destinationId=defaultPlace;destSelect.value=destinationId;updatePlaceDetail(getPlace(destinationId));renderMapRoute();}
+        }
+        renderPopular();
+        document.querySelectorAll('.region').forEach(region=>region.classList.toggle('active-region',id!=='all'&&region.dataset.emirate===id));
+        document.getElementById('mapStatus').textContent=id==='all'?'NATIONAL BOUNDARIES · SELECT A REGION OR CITY MARKER':`FILTER: ${emirateName(id).toUpperCase()} · ${places.filter(p=>p.emirate===id).length} PLACES`;
+      }
+      function surprisePlace() {
+        const pool=places.filter(place=>place.id!==destinationId);const pick=pool[Math.floor(Math.random()*pool.length)];setDestination(pick.id);
+      }
+      function randomPair() {
+        const first=Math.floor(Math.random()*places.length);let second=Math.floor(Math.random()*places.length);while(second===first)second=Math.floor(Math.random()*places.length);
+        originId=places[first].id;destinationId=places[second].id;originSelect.value=originId;destSelect.value=destinationId;activeEmirate=places[second].emirate;
+        document.querySelectorAll('[data-emirate-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.emirateFilter===activeEmirate)));
+        updateAtlas();showToast('A random UAE place pair is ready. Connection line is illustrative, not a route.');
+      }
+      function renderHeatTimeline() {
+        const holder=document.getElementById('heatTimeline');
+        holder.innerHTML=timeCurve.map((item,index)=>`<button class="heat-hour" type="button" data-time-index="${index}" data-cool="${item.temp<=37}" aria-pressed="${index===selectedHour}" aria-label="Sample ${item.time}, ${item.temp} degrees Celsius"><span class="temp-label">${item.temp}°</span><i class="heat-bar" style="height:${Math.max(14,(item.temp-29)*5)}px"></i><span class="time-label">${item.time.slice(0,2)}</span></button>`).join('');
+        holder.querySelectorAll('[data-time-index]').forEach(button=>button.addEventListener('click',()=>{selectedHour=Number(button.dataset.timeIndex);updateHeatLens();}));
+      }
+      function updateHeatLens() {
+        const place=getPlace(destinationId),cur=timeCurve[selectedHour];
+        const offsets={'abu-dhabi':0,'dubai':1,'sharjah':0,'ajman':0,'umm-al-quwain':-1,'ras-al-khaimah':-1,'fujairah':-1};
+        const temp=cur.temp+(offsets[place.emirate]||0);
+        const kindBoost={coast:5,mountain:8,oasis:7,mosque:1,museum:1,tower:0,heritage:2};
+        const comfort=Math.max(8,Math.min(92,Math.round(100-(temp-27)*4+(kindBoost[place.kind]||0))));
+        document.getElementById('heatHourLabel').textContent=cur.time;document.getElementById('heatTemp').textContent=temp;document.getElementById('comfortScore').textContent=comfort;
+        document.querySelectorAll('.heat-hour').forEach((button,index)=>button.setAttribute('aria-pressed',String(index===selectedHour)));
+        document.getElementById('heatAdvice').textContent=temp>37?`In this synthetic curve, ${cur.time} is still a hot window for ${place.city}. Try a later slot to see the comfort index shift; these are not live conditions.`:`${cur.time} is a cooler point in this sample curve for ${place.city}. A production version would check local forecast, shade and opening data.`;
+      }
+      function updateSavedCount(){document.getElementById('savedCount').textContent=safeRead(savedKey,[]).length;}
+      function renderSaved(){const grid=document.getElementById('savedGrid'),items=safeRead(savedKey,[]);if(!items.length){grid.innerHTML='<div class="empty-state">No saved places yet.<br>Use the bookmark beside the selected landmark to keep one here.</div>';return;}grid.innerHTML=items.map(id=>{const p=getPlace(id);return `<div class="saved-place-row"><div><strong>${escapeHTML(p.name)}</strong><span>${escapeHTML(emirateName(p.emirate))} · ${escapeHTML(p.tag)}</span></div><button type="button" data-remove-place="${p.id}">REMOVE</button></div>`;}).join('');grid.querySelectorAll('[data-remove-place]').forEach(button=>button.addEventListener('click',()=>{const next=safeRead(savedKey,[]).filter(id=>id!==button.dataset.removePlace);safeWrite(savedKey,next);updateSavedCount();renderSaved();updatePlaceDetail(getPlace(destinationId));showToast('Place removed from your collection.');}));}
+      function applyZoom(){const z=zoom,tx=(1-z)*360,ty=(1-z)*260;document.getElementById('mapContents').setAttribute('transform',`translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${z.toFixed(2)})`);}
+
+      document.getElementById('signedInEmail').textContent=currentUser.email || 'signed in';
+      document.getElementById('signOutButton').addEventListener('click',async()=>{try{await fetch('/api/auth/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});}catch(_){}window.location.href='/';});
+      fillSelects();fillEmirateTabs();renderCityPins();renderHeatTimeline();renderPopular();updateAtlas();updateSavedCount();
+      originSelect.addEventListener('change',()=>{originId=originSelect.value;updateAtlas();});
+      destSelect.addEventListener('change',()=>{destinationId=destSelect.value;activeEmirate=getPlace(destinationId).emirate;document.querySelectorAll('[data-emirate-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.emirateFilter===activeEmirate)));updateAtlas();});
+      document.getElementById('swapPlaces').addEventListener('click',()=>{const old=originId;originId=destinationId;destinationId=old;originSelect.value=originId;destSelect.value=destinationId;activeEmirate=getPlace(destinationId).emirate;updateAtlas();});
+      document.getElementById('randomPlace').addEventListener('click',surprisePlace);document.getElementById('heroSurprise').addEventListener('click',()=>{surprisePlace();document.getElementById('atlas').scrollIntoView({behavior:'smooth'});});document.getElementById('randomPair').addEventListener('click',randomPair);
+      document.getElementById('savePlace').addEventListener('click',()=>{let items=safeRead(savedKey,[]);if(items.includes(destinationId)){items=items.filter(id=>id!==destinationId);showToast('Removed from saved places.');}else{items.unshift(destinationId);showToast('Place saved on this device.');}safeWrite(savedKey,items);updateSavedCount();updatePlaceDetail(getPlace(destinationId));});
+      document.getElementById('zoomIn').addEventListener('click',()=>{zoom=Math.min(1.6,zoom+.12);applyZoom();});document.getElementById('zoomOut').addEventListener('click',()=>{zoom=Math.max(.88,zoom-.12);applyZoom();});document.getElementById('resetZoom').addEventListener('click',()=>{zoom=1;applyZoom();});
+      document.getElementById('orbitButton').addEventListener('click',()=>{const stage=document.getElementById('sceneStage');stage.classList.toggle('orbit');document.getElementById('orbitButton').textContent=stage.classList.contains('orbit')?'⟲ RESET VIEW':'⟳ ORBIT';});
+      document.getElementById('openSaved').addEventListener('click',()=>{renderSaved();document.getElementById('savedModal').hidden=false;document.getElementById('closeSaved').focus();});document.getElementById('closeSaved').addEventListener('click',()=>{document.getElementById('savedModal').hidden=true;document.getElementById('openSaved').focus();});document.getElementById('savedModal').addEventListener('click',e=>{if(e.target===document.getElementById('savedModal'))document.getElementById('savedModal').hidden=true;});document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('savedModal').hidden=true;});
+      document.querySelectorAll('.region').forEach(region=>{const activate=()=>{const id=region.dataset.emirate;setEmirateFilter(id);document.getElementById('mapStatus').textContent=`FOCUS: ${emirateName(id).toUpperCase()} · SELECT A PLACE BELOW`;};region.addEventListener('click',activate);region.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});});
+    })();
+  </script>
+</body>
+</html>
